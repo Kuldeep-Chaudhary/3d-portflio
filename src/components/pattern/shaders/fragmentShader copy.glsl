@@ -1,0 +1,256 @@
+#define PI 3.1415926535897932384626433832795
+varying vec2 vUv;
+uniform float uTime;
+
+float random (vec2 st) {
+    return fract(sin(dot(st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+// rotation
+vec2 rotate(vec2 uv, float rotation, vec2 mid)
+{
+    return vec2(
+      cos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,
+      cos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y
+    );
+}
+void main(){
+    // 1 
+    // float strength = vUv.x;  
+
+    // 2
+    // float strength = vUv.y;
+
+    // 3
+    // float strength = 1.0 - vUv.y;
+
+    // 4
+    // float strength = vUv.y * 10.0;
+
+    // 5
+    // float strength = mod(vUv.y * 10.0 , 1.0);
+    
+    // // 6
+    // float strength = mod(vUv.y * 10.0 , 1.0);
+    // strength = step(0.5,strength);
+
+    // 7
+    // float strength = mod(vUv.y * 10.0 , 1.0);
+    // strength = step(0.8,strength);
+    
+    // 8
+    // float strength = mod(vUv.x * 10.0 , 1.0);
+    // strength = step(0.8,strength);
+    
+    // 9
+//    float strength = step(0.8,mod(vUv.x * 10.0 , 1.0));
+//          strength += step(0.8,mod(vUv.y * 10.0 , 1.0));
+         
+    // 10
+//    float strength = step(0.4,mod(vUv.x * 10.0 , 1.0));
+//          strength *= step(0.8,mod(vUv.y * 10.0 , 1.0));
+         
+//     // 11
+//    float barX = step(0.4,mod(vUv.x * 10.0 , 1.0));
+//          barX *= step(0.8,mod(vUv.y * 10.0 , 1.0));
+//    float barY = step(0.8,mod(vUv.x * 10.0 , 1.0));
+//          barY *= step(0.4,mod(vUv.y * 10.0 , 1.0));
+//     float strength = barX + barY;
+
+    
+// // //     // 12
+
+//    float barX = step(0.4,mod(vUv.x * 10.0  , 1.0));
+//          barX *= step(0.8,mod(vUv.y * 10.0 + 0.2, 1.0));
+//    float barY = step(0.8,mod(vUv.x * 10.0 + 0.2, 1.0));
+//          barY *= step(0.4,mod(vUv.y * 10.0 , 1.0));
+//     float strength = barX + barY;
+
+//     gl_FragColor  = vec4(strength,strength,strength,1.0);
+
+
+// 13
+// // Scale UVs for grid size
+// vec2 gridUV = fract(vUv * 10.0);
+
+// // Set bar thickness (between 0.0 and 1.0)
+// float thickness = 0.2;
+
+// // Vertical bar of +
+// float verticalBar = step(0.5 - thickness * 0.5, gridUV.x) * step(gridUV.x, 0.5 + thickness * 0.5);
+
+// // Horizontal bar of +
+// float horizontalBar = step(0.5 - thickness * 0.5, gridUV.y) * step(gridUV.y, 0.5 + thickness * 0.5);
+
+// // Combine both
+// float strength = verticalBar + horizontalBar;
+
+// 14
+ // Grid UVs with scrolling animation
+    // vec2 scrollSpeed = vec2(0.1); // scroll in both x and y
+    // vec2 gridUV = fract((vUv + uTime * scrollSpeed) * 10.0);
+
+    // // Thickness pulsates over time
+    // float baseThickness = 0.05;
+    // float pulseAmplitude = 0.1;
+    // float thickness = baseThickness + pulseAmplitude * sin(uTime * 2.0);
+
+    // // Centered vertical bar
+    // float verticalBar = step(0.5 - thickness * 0.5, gridUV.x) * step(gridUV.x, 0.5 + thickness * 0.5);
+    
+    // // Centered horizontal bar
+    // float horizontalBar = step(0.5 - thickness * 0.5, gridUV.y) * step(gridUV.y, 0.5 + thickness * 0.5);
+
+    // // Combine both to get a `+` shape
+    // float strength = verticalBar + horizontalBar;
+
+    // Output as white on black
+
+
+// gl_FragColor = vec4(vec3(strength), 1.0);
+
+
+
+// 15
+
+    // // Animation speed
+    // float speed = 0.5;
+
+    // // Apply time-based scrolling offset (not scaling)
+    // float offsetX = uTime * speed;
+    // float offsetY = uTime * speed;
+
+    // // X bar of "+"
+    // float barX = step(0.4, mod((vUv.x + offsetX) * 10.0, 1.0));
+    // barX *= step(0.8, mod((vUv.y + 0.2) * 10.0, 1.0));
+
+    // // Y bar of "+"
+    // float barY = step(0.8, mod((vUv.x + 0.2) * 10.0, 1.0));
+    // barY *= step(0.4, mod((vUv.y + offsetY) * 10.0, 1.0));
+
+    // float strength = barX + barY;
+
+    // gl_FragColor = vec4(vec3(strength), 1.0);
+
+    
+   // 16
+   // float strength = min(abs(vUv.x - 0.5),abs(vUv.y - 0.5));
+
+    // 17
+    // float strength = max(abs(vUv.x - 0.5),abs(vUv.y - 0.5));
+    
+    // 18
+    // float strength = step(0.2,max(abs(vUv.x - 0.5),abs(vUv.y - 0.5)));
+
+    // 19
+    // float square1 = step(0.2,max(abs(vUv.x - 0.5),abs(vUv.y - 0.5)));
+    // float square2 = 1.0 - step(0.25,max(abs(vUv.x - 0.5),abs(vUv.y - 0.5)));
+    // float strength = square1 * square2;
+
+    // 20
+    // float strength = floor(vUv.x * 10.0) / 10.0;
+    // // 21
+    // float strength = floor(vUv.x * 10.0) / 10.0;
+    // strength *= floor(vUv.y * 10.0) / 10.0;
+
+    // 23
+    // float strength = random(vUv);
+
+    // 24
+    // vec2 gridUV = vec2(
+    //     floor(vUv.x * 10.0) / 10.0,
+    //     floor(vUv.y * 10.0 + vUv.x * 5.0) / 10.0
+
+    // );
+    // float strength = random(gridUV);
+
+    // 25
+    // float strength = length(vUv);
+    // 26
+    // float strength = distance(vUv, vec2(0.5));
+    // 27
+    // float strength = 1.0 - distance(vUv, vec2(0.5));
+    // 28
+    // float strength = 0.015 / distance(vUv, vec2(0.5));
+    // 29
+    // vec2 lightUv = vec2(vUv.x * 0.1 + 0.45, vUv.y * 0.5 + 0.25);
+    // float strength = 0.015 / distance(lightUv, vec2(0.5));
+    
+    // 30
+    // vec2 lightUvX = vec2(vUv.x * 0.1 + 0.45, vUv.y * 0.5 + 0.25);
+    // float lightX = 0.015 / distance(lightUvX, vec2(0.5));
+    
+    // vec2 lightUvY = vec2(vUv.y * 0.1 + 0.45, vUv.x * 0.5 + 0.25);
+    // float lightY = 0.015 / distance(lightUvY, vec2(0.5));
+
+    // float strength = lightX * lightY;
+    
+    // 31
+    // vec2 rotatedUv = rotate(vUv, PI * 0.25 , vec2(0.5));
+
+    // vec2 lightUvX = vec2(rotatedUv.x * 0.1 + 0.45, rotatedUv.y * 0.5 + 0.25);
+    // float lightX = 0.015 / distance(lightUvX, vec2(0.5));
+    
+    // vec2 lightUvY = vec2(rotatedUv.y * 0.1 + 0.45, rotatedUv.x * 0.5 + 0.25);
+    // float lightY = 0.015 / distance(lightUvY, vec2(0.5));
+
+    // float strength = lightX * lightY;
+
+    // 32
+    // float strength = step(0.25, distance(vUv,vec2(0.5)))
+
+    // 33
+    // float strength = abs(distance(vUv,vec2(0.5)) - 0.25);
+
+    // 34
+    // float strength = step(0.01, abs(distance(vUv,vec2(0.5)) - 0.25));
+
+    // 35
+    // float strength = 1.0 - step(0.01, abs(distance(vUv,vec2(0.5)) - 0.25));
+
+    // 36
+    // vec2 wavedUv = vec2(
+    //     vUv.x + sin(vUv.y * 30.0) * 0.1,
+    //     vUv.y + sin(vUv.x * 30.0) * 0.1
+    // );
+    // float strength = 1.0 - step(0.01, abs(distance(wavedUv,vec2(0.5)) - 0.25));
+    
+    // 36
+    // vec2 wavedUv = vec2(
+    //     vUv.x + sin(vUv.y * 30.0) * 0.1,
+    //     vUv.y + sin(vUv.x * 30.0) * 0.1
+    // );
+    // float strength = 1.0 - step(0.01, abs(distance(wavedUv,vec2(0.5)) - 0.25));
+    
+    // 37
+    // vec2 wavedUv = vec2(
+    //     vUv.x + sin(vUv.y * 100.0) * 0.1,
+    //     vUv.y + sin(vUv.x * 100.0) * 0.1
+    // );
+    // float strength = 1.0 - step(0.01, abs(distance(wavedUv,vec2(0.5)) - 0.25));
+
+    // 38
+    // float angle = atan(vUv.x, vUv.y);
+    //  float strength = angle;
+
+
+
+
+// testing for all functions start
+
+// 1 step
+
+   float d = distance(vUv, vec2(0.5));
+   float strength =  step(0.25, d);
+
+
+
+// testing for all functions end
+
+
+
+    gl_FragColor  = vec4(strength,strength,strength,1.0);
+
+
+}
