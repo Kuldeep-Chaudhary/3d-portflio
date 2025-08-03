@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { RigidBody, useRapier } from "@react-three/rapier";
+import { RigidBody } from "@react-three/rapier";
 import BlackCar from "./BlackCar";
 import * as THREE from "three";
 
 const CarController = () => {
-  
-     const [followMode, setFollowMode] = useState(false);
+  const [followMode, setFollowMode] = useState(false);
+  const [isCapsLock, setIsCapsLock] = useState(false); // ✅ Track CapsLock
+
   const rigidRef = useRef();
   const { camera, scene } = useThree();
-  // const { world } = useRapier();
 
-  const forwardForce = 0.15;
   const backwardForce = 0.15;
   const baseTurnTorque = 0.03;
 
@@ -34,12 +33,33 @@ const CarController = () => {
 
   useEffect(() => {
     const down = (e) => {
-      setKeys((k) => ({ ...k, [e.key.toLowerCase()]: true }));
-      if (e.ctrlKey && e.key.toLowerCase() === "c") {
+      const key = e.key.toLowerCase();
+      setKeys((k) => ({ ...k, [key]: true }));
+
+      // ✅ Check and set CapsLock state
+      if (e.getModifierState && e.getModifierState("CapsLock")) {
+        setIsCapsLock(true);
+      } else {
+        setIsCapsLock(false);
+      }
+
+      if (e.ctrlKey && key === "c") {
         setFollowMode((prev) => !prev);
       }
     };
-    const up = (e) => setKeys((k) => ({ ...k, [e.key.toLowerCase()]: false }));
+
+    const up = (e) => {
+      const key = e.key.toLowerCase();
+      setKeys((k) => ({ ...k, [key]: false }));
+
+      // ✅ Update CapsLock state again on key release
+      if (e.getModifierState && e.getModifierState("CapsLock")) {
+        setIsCapsLock(true);
+      } else {
+        setIsCapsLock(false);
+      }
+    };
+
     window.addEventListener("keydown", down);
     window.addEventListener("keyup", up);
     return () => {
@@ -48,7 +68,6 @@ const CarController = () => {
     };
   }, []);
 
-  // Reset camera when follow mode is turned off
   useEffect(() => {
     if (!followMode) {
       smoothedCamPos.current.copy(defaultCameraPos);
@@ -75,11 +94,9 @@ const CarController = () => {
       handleMovement(body, forward);
     }
 
-    // Smooth follow target position
     carPos.current.set(transform.x, transform.y, transform.z);
     followTarget.current.position.lerp(carPos.current, 0.15);
 
-    // Smooth camera follow
     const lerpAlpha = THREE.MathUtils.clamp(1 - Math.pow(0.01, delta), 0.01, 1);
     if (followMode) {
       updateCamera(forward, lerpAlpha);
@@ -87,6 +104,8 @@ const CarController = () => {
   });
 
   const handleMovement = (body, forward) => {
+    const forwardForce = isCapsLock ? 0.15 : 0.08; // ✅ Use CapsLock state
+
     if (keys["w"] || keys["arrowup"]) {
       body.applyImpulse(forward.clone().multiplyScalar(forwardForce), true);
     }
