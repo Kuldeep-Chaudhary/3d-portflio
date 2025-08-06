@@ -104,7 +104,7 @@ const CarController = () => {
   });
 
   const handleMovement = (body, forward) => {
-    const forwardForce = isCapsLock ? 0.15 : 0.08; // ✅ Use CapsLock state
+    const forwardForce = isCapsLock ? 2 : 1; // ✅ Use CapsLock state
 
     if (keys["w"] || keys["arrowup"]) {
       body.applyImpulse(forward.clone().multiplyScalar(forwardForce), true);
