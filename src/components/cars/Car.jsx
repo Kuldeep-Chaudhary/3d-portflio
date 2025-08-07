@@ -10,7 +10,7 @@ const CarController = () => {
 
   const rigidRef = useRef();
   const { camera, scene } = useThree();
-  const baseForce = 0.2;
+  const baseForce = 0.15;
   const boostForce = 0.3;
   const backwardForce = 0.15;
   const baseTurnTorque = 0.03;

@@ -3,7 +3,7 @@ import { RigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
 import RoadSystem from '../roads/RoadSystem'
 
-const CarEnvironment = () => {
+const CarEnvironment = ({data}) => {
   
   // const blueMaterial = new THREE.MeshStandardMaterial({ color: '#bcd' })
   // const boxMaterial = new THREE.MeshStandardMaterial({ color: '#262526ff' })
@@ -11,6 +11,7 @@ const CarEnvironment = () => {
   // const ballMaterial = new THREE.MeshStandardMaterial({ color: '#262526ff' })
   // const wallMaterial = new THREE.MeshStandardMaterial({ color: '#999' })
   
+  const groundMaterial = new THREE.MeshStandardMaterial({ color: data })
   const blueMaterial = new THREE.MeshStandardMaterial({ color: '#2a2a2a' })
   const boxMaterial = new THREE.MeshStandardMaterial({ color: '#000' })
   const coneMaterial = new THREE.MeshStandardMaterial({ color: '#000' })
@@ -28,7 +29,7 @@ const CarEnvironment = () => {
         <mesh
           position={[0, -0.1, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
-          material={blueMaterial}
+          material={groundMaterial}
           receiveShadow
         >
           <planeGeometry args={[groundSize, groundSize]} />
@@ -119,7 +120,7 @@ const CarEnvironment = () => {
     <boxGeometry args={[4, 0.2, 3]} />
   </mesh>
 </RigidBody>
-<RoadSystem/>
+{/* <RoadSystem/> */}
 
       {Array.from({ length: 100 }).map((_, i) => {
   const x = (Math.random() - 0.5) * 40
