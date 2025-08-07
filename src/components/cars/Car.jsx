@@ -10,7 +10,8 @@ const CarController = () => {
 
   const rigidRef = useRef();
   const { camera, scene } = useThree();
-
+  const baseForce = 0.2;
+  const boostForce = 0.3;
   const backwardForce = 0.15;
   const baseTurnTorque = 0.03;
 
@@ -104,7 +105,7 @@ const CarController = () => {
   });
 
   const handleMovement = (body, forward) => {
-    const forwardForce = isCapsLock ? 2 : 1; // ✅ Use CapsLock state
+    const forwardForce = isCapsLock ? boostForce : baseForce; // ✅ Use CapsLock state
 
     if (keys["w"] || keys["arrowup"]) {
       body.applyImpulse(forward.clone().multiplyScalar(forwardForce), true);
