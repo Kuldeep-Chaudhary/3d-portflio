@@ -13,13 +13,6 @@ export default function Home() {
         <directionalLight position={[10, 10, 5]} intensity={3} />
          <Suspense fallback={null}>
          <Physics>
-        {/* <CameraAnimation/> */}
-        {/* <Wave1/> */}
-        {/* <Pattern/> */}
-        {/* <RagingSea/> */}
-        {/* <Gallexy/> */}
-        {/* <CoffeeMug/> */}
-        {/* <Distortion/> */}
         <CarEnvironment/>
         <CarController />
         </Physics>
